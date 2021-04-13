@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+django-tailwind = "==2.0.0b1"
+flake8 = "*"
+black = "*"
+django-environ = "*"
+django-phonenumber-field = {extras = ["phonenumberslite"], version = "*"}
+django-tinymce = "*"
+django-unicorn = "*"
+django-nested-inline = "*"
+
+[dev-packages]
+black = "*"
+
+[requires]
+python_version = "3.9"
+
+[pipenv]
+allow_prereleases = true

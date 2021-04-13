@@ -1,0 +1,4 @@
+.env
+SLUGS/settings.py
+.vscode/
+db.sqlite3

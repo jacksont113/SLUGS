@@ -1,0 +1,20 @@
+<div style="margin: auto;">
+<button
+unicorn:click="toggle"
+style="
+{% if signup.is_open == True %}
+background-color: #03c77f;
+{% elif signup.is_open == False %}
+background-color: #f0506e;
+{% endif %}
+"
+class="sidebar_button">
+{% if signup.is_open == True %}
+Signup is open
+{% elif signup.is_open == False %}
+Signup is closed
+{% else %}
+Getting signup status...
+{% endif %}
+</button>
+</div>
