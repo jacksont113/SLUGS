@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Notification, signupStatus
+from .models import Notification, signupStatus, onboardingStatus
 from tinymce.widgets import TinyMCE
 from django.db import models
 
@@ -12,4 +12,8 @@ class NotificationAdmin(admin.ModelAdmin):
 
 @admin.register(signupStatus)
 class signupStatus(admin.ModelAdmin):
+    pass
+
+@admin.register(onboardingStatus)
+class onboardingStatusAdmin(admin.ModelAdmin):
     pass

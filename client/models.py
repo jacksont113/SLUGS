@@ -12,9 +12,12 @@ class Organization(models.Model):
 
 class OrgContact(models.Model):
     name = models.CharField(max_length=200)
-    linked_org = models.ForeignKey(Organization, models.PROTECT)
+    organization = models.ForeignKey(Organization, models.PROTECT)
     phone_number = PhoneNumberField(null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
 
+    class Meta:
+        verbose_name = "Organization Contact"
+
     def __str__(self):
-        return f"{self.name} - {self.linked_org}"
+        return f"{self.name} - {self.organization}"

@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+:root {
+    --primary: #03c77f;
+    --border-color: #03c77f;
+}
+
 #site-name img {
     width: 1.5em;
 }
@@ -70,5 +75,17 @@ div.breadcrumbs {
 }
 
 .required label, label.required {
+    color: #FFF!important;
+}
+
+label {
+    color: rgb(223, 223, 223)!important;
+}
+
+.inline-related fieldset {
+    background-color: #131313!important;
+}
+.inline-related h3 {
+    background-color: #266DD3!important;
     color: #FFF!important;
 }

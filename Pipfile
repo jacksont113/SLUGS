@@ -13,6 +13,9 @@ django-phonenumber-field = {extras = ["phonenumberslite"], version = "*"}
 django-tinymce = "*"
 django-unicorn = "*"
 django-nested-inline = "*"
+django-crispy-forms = "*"
+crispy-tailwind = "*"
+django-fieldsets-with-inlines = "*"
 
 [dev-packages]
 black = "*"

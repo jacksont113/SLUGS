@@ -16,11 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from SLUGS import views
-
 urlpatterns = [
     path("unicorn/", include("django_unicorn.urls")),
     path("tinymce/", include("tinymce.urls")),
     path("admin/", admin.site.urls),
     path("auth/", include("django.contrib.auth.urls")),
     path("", views.index.as_view(), name="index"),
+    path("employee/", include('employee.urls')),
 ]

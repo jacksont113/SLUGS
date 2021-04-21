@@ -33,3 +33,10 @@ class signupStatus(models.Model):
 
     def __str__(self):
         return f'Signup is currently {"Open" if self.is_open else "Closed"}'
+
+
+class onboardingStatus(models.Model):
+    is_open = models.BooleanField()
+
+    def __str__(self):
+        return f'User onboarding is currently {"Open" if self.is_open else "Closed"}'

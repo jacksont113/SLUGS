@@ -13,12 +13,12 @@
     {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive_rtl.css" %}">{% endif %}
 {% endblock %}
 {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/base-extension.css" %}">
 </head>
 {% load i18n %}
 
 <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
   data-admin-utc-offset="{% now "Z" %}">
-
 <!-- Container -->
 <div id="container">
 

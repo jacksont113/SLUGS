@@ -53,7 +53,11 @@ class Employee(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
+    class Meta:
+        verbose_name = "Employee"
+        verbose_name_plural = "Employees"
+
     objects = EmployeeManager()
 
     def __str__(self):
-        return self.email
+        return f'{self.first_name} {self.last_name} ({self.email})'

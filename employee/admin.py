@@ -19,6 +19,7 @@ class EmployeeAdmin(UserAdmin):
         "is_active",
         "is_staff",
         "is_superuser",
+        "groups"
     )
 
     def get_fieldsets(self, request, obj=None):
@@ -27,8 +28,8 @@ class EmployeeAdmin(UserAdmin):
 
         if request.user.is_superuser:
             perm_fields = (
-                "is_staff",
                 "is_active",
+                "is_staff",
                 "is_superuser",
                 "groups",
                 "user_permissions",
@@ -65,7 +66,7 @@ class EmployeeAdmin(UserAdmin):
             },
         ),
     )
-    search_fields = ("email", "first_name", "last_name", "bnum")
+    search_fields = ("email", "first_name", "last_name", "bnum", "groups")
     ordering = ("email",)
     filter_horizontal = (
         "groups",
