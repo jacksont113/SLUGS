@@ -31,6 +31,10 @@ module.exports = {
                 'stencil': ['Allerta Stencil', 'sans-serif'],
                 'brand': ['Rubik', 'sans-serif'],
             },
+            transitionProperty: {
+                'height': 'height',
+                'width': 'width',
+            }
         },
     },
     variants: {

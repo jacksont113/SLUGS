@@ -22,37 +22,59 @@ class MultipleFormView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(MultipleFormView, self).get_context_data(**kwargs)
-        forms_initialized = {}
+        forms_initialized = {"forms": {}}
         for name, obj in self.form_classes.items():
+            if "kwargs" not in obj:
+                obj["kwargs"] = {}
             if "instance" in obj:
-                forms_initialized[name] = obj["form"](
+                forms_initialized["forms"][name] = obj["form"](
                     obj["args"] if "args" in obj else None,
                     prefix=name,
                     instance=obj["instance"],
+                    **obj["kwargs"],
                 )
             else:
-                forms_initialized[name] = obj["form"](
-                    obj["args"] if "args" in obj else None,
-                    prefix=name,
+                forms_initialized["forms"][name] = obj["form"](
+                    obj["args"] if "args" in obj else None, prefix=name, **obj["kwargs"]
                 )
 
         return merge_dicts(context, forms_initialized)
 
     def post(self, request, **kwargs):
-        forms_initialized = {}
+        forms_initialized = {"forms": {}}
         for name, obj in self.form_classes.items():
+            if "kwargs" not in obj:
+                obj["kwargs"] = {}
             if "args" in obj:
-                forms_initialized[name] = obj["form"](
-                    obj["args"], prefix=name, data=request.POST
+                forms_initialized["forms"][name] = obj["form"](
+                    obj["args"],
+                    prefix=name,
+                    data=request.POST,
+                    instance=obj["instance"] if "instance" in obj else None,
+                    **obj["kwargs"],
                 )
             else:
-                forms_initialized[name] = obj["form"](prefix=name, data=request.POST)
-            if "instance" in obj:
-                forms_initialized[name].instance = obj["instance"]
-
-        valid = all(
-            [form_class.is_valid() for form_class in forms_initialized.values()]
-        )
+                if "instance" in obj:
+                    forms_initialized["forms"][name] = obj["form"](
+                        prefix=name,
+                        data=request.POST,
+                        instance=obj["instance"],
+                        **obj["kwargs"],
+                    )
+                else:
+                    forms_initialized["forms"][name] = obj["form"](
+                        prefix=name,
+                        data=request.POST,
+                        **obj["kwargs"],
+                    )
+        valid = True
+        for form_class in forms_initialized.values():
+            if valid is False:
+                break
+            if type(form_class) is dict:
+                valid = all([form_class[form].is_valid() for form in form_class])
+            else:
+                valid = form_class.is_valid()
         if valid:
             return self.process_forms(forms_initialized)
         else:

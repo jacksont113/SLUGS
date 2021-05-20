@@ -6,7 +6,7 @@ import employee.models as employee
 # Create your models here.
 class System(models.Model):
     name = models.CharField(max_length=200)
-    is_addon = models.BooleanField(default=False)
+    description = models.CharField(max_length=1024, blank=True, null=True)
     department = models.CharField(max_length=1, choices=DEPARTMENTS)
     base_price = models.DecimalField(
         max_digits=8, decimal_places=2, blank=True, null=True
@@ -19,13 +19,28 @@ class System(models.Model):
         return self.department + " - " + self.name
 
 
+class SystemAddon(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=1024, blank=True, null=True)
+    department = models.CharField(max_length=1, choices=DEPARTMENTS)
+    base_price = models.DecimalField(
+        max_digits=8, decimal_places=2, blank=True, null=True
+    )
+    price_per_hour = models.DecimalField(
+        max_digits=8, decimal_places=2, blank=True, null=True
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class BrokenEquipmentReport(models.Model):
     CASE_TYPES = [
-        ("U", 'Unread'),
-        ("A", 'Acknowledged'),
-        ("W", 'WIP'),
-        ("B", 'Blocked'),
-        ("C", 'Closed'),
+        ("U", "Unread"),
+        ("A", "Acknowledged"),
+        ("W", "WIP"),
+        ("B", "Blocked"),
+        ("C", "Closed"),
     ]
     broken_system = models.ForeignKey(System, on_delete=models.CASCADE)
     date_filed = models.DateTimeField(auto_now_add=True)

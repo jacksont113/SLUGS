@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 :root {
-    --primary: #03c77f;
+    --primary: #009961;
     --border-color: #03c77f;
 }
 
@@ -26,13 +26,13 @@ h1 {
     color: #000!important;
 }
 .module caption {
-    background-color: #03c77f;
+    background-color: #009961;
 }
 a.section:link, a.section:visited {
     color: #000
 }
 .module h2 {
-    background-color: #03c77f;
+    background-color: #009961;
 }
 a:link, a:visited {
     color: #009b62;
@@ -46,7 +46,7 @@ li.deletelink {
     color: #000;
 }
 div.breadcrumbs {
-    background-color: #03c77f;
+    background-color: #009961;
     box-shadow: #00000070 0px 4px 4px 0px;
     color: #FDE4DE;
 }
@@ -63,7 +63,7 @@ div.breadcrumbs {
 }
 
 .selector-chosen h2 {
-    background-color: #03c77f!important;
+    background-color: #009961!important;
 }
 
 .inline-group .inline-group {
@@ -80,12 +80,4 @@ div.breadcrumbs {
 
 label {
     color: rgb(223, 223, 223)!important;
-}
-
-.inline-related fieldset {
-    background-color: #131313!important;
-}
-.inline-related h3 {
-    background-color: #266DD3!important;
-    color: #FFF!important;
 }

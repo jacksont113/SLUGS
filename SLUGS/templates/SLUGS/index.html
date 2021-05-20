@@ -1,5 +1,9 @@
 {% extends "theme/base.html" %}
 {% load grouping %}
+{% load static %}
+{% load gig_components %}
+{% load tz %}
+
 
 {% block title %}Dashboard{% endblock %}
 {% block content %}
@@ -24,7 +28,7 @@
                 {% endif %}
                 {% endfor %}
                 {% if signup_open %}
-                <a class="" href="#">
+                <a class="" href="{% url 'gig:signup' %}">
                     <div
                         class="flex max-w-5xl px-4 py-2 mx-auto text-center text-black transition bg-red-300 rounded-sm hover:bg-red-200">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -42,22 +46,31 @@
                 </a>
                 {% endif %}
                 {% else %}
-                <div id="no_notifications">Nothing's here.... for now 😳</div>
+                <div class="text-center mx-auto text-xl p-4 rounded bg-[#1F1F1F]" id="no_notifications">Nothing's here.... for now 😳</div>
                 {% endif %}
             </div>
+        </div>
+        <div>
+            {% if next_gig %}
+            <h1 class="text-4xl text-bold"> Next Show</h1>
+                <a href="{% url 'gig:showView' next_gig.pk %}">
+                {% ticket next_gig %}
+                </a>
+            {% endif %}
         </div>
         <div>
             <h1 class="text-4xl text-bold">
                 My shows
             </h1>
             <div class="my-4 md:mx-20">
+                {% if jobs.count > 0 %}
                 <table style="border-spacing: 1rem 1rem;" class="w-full table-auto">
                     <thead class="border-b-2 border-white">
                         <tr>
                             <td>
                                 Name
                             </td>
-                            <td>
+                            <td class="hidden md:inline">
                                 Organization
                             </td>
                             <td>
@@ -69,22 +82,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="cursor-pointer even:bg-[#1F1F1F] odd:bg-[#333333]">
+                        {% for job in jobs %}
+                        <tr tabindex="0" onclick="window.location='{% url 'gig:showView' job.gig.id %}'" class="cursor-pointer even:bg-[#1F1F1F] odd:bg-[#333333] hover:bg-gray-700">
                             <td class="pl-2">
-                                Test
+                                {{job.gig.name}}
+                            </td>
+                            <td class="hidden pl-2 md:table-cell">
+                                {{job.gig.org}}
                             </td>
                             <td class="py-4 pl-2">
-                                Test
+                                {{job.gig.location}}
                             </td>
                             <td class="pl-2">
-                                Test
-                            </td>
-                            <td class="pl-2">
-                                Test
+                                {{job.gig.start}}
                             </td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                <div class="bg-[#1F1F1F] p-5 text-center text-xl text-white">
+                    You have no gigs...
+                    <img class="w-24 h-24 mx-auto my-4" src="{% static 'img/index/vibe_check.png' %}"/>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

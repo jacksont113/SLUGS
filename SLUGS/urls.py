@@ -15,12 +15,35 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import debug_toolbar
 from SLUGS import views
+from employee.views import FormDownload, FilledFormDownload
+from finance.views import EstimateDownload
+
 urlpatterns = [
     path("unicorn/", include("django_unicorn.urls")),
     path("tinymce/", include("tinymce.urls")),
+    path("__debug__/", include(debug_toolbar.urls)),
     path("admin/", admin.site.urls),
-    path("auth/", include("django.contrib.auth.urls")),
+    path(
+        "media/forms/<path:relative_path>", FormDownload.as_view(), name="download_form"
+    ),
+    path(
+        "media/uploads/<u_pk>/<path:relative_path>",
+        FilledFormDownload.as_view(),
+        name="download_form",
+    ),
+    path(
+        "media/estimates/<path:relative_path>",
+        EstimateDownload.as_view(),
+        name="download_estimate",
+    ),
+    path("auth/", include("django.contrib.auth.urls"), name="auth"),
+    path("utils/", include("utils.urls")),
     path("", views.index.as_view(), name="index"),
-    path("employee/", include('employee.urls')),
+    path("employee/", include("employee.urls")),
+    path("gig/", include("gig.urls")),
+    path("equipment/", include("equipment.urls")),
+    path("training/", include("training.urls")),
+    path("finance/", include("finance.urls")),
 ]

@@ -3,3 +3,5 @@ SLUGS/settings.py
 .vscode/
 db.sqlite3
 __pycache__/
+calendar_service_account.json
+uploads/
