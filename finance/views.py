@@ -1,3 +1,4 @@
+from copy import deepcopy
 from django.views.generic.base import TemplateView
 from django.core.exceptions import PermissionDenied
 import django.utils.timezone as timezone
@@ -186,6 +187,44 @@ class viewTimesheet(SLUGSMixin, TemplateView):
         self.added_context["rates"] = rates
         self.added_context["t_total"] = t_total
         self.added_context["t_amt"] = shifts.aggregate(Sum("cost"))
+        return super().dispatch(request, *args, **kwargs)
+
+
+class viewSummary(SLUGSMixin, TemplateView):
+    template_name = "finance/summary.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        pay_period = PayPeriod.objects.get(pk=kwargs["pp_id"])
+        rates = {}
+        for rate in Wage.objects.all().order_by("hourly_rate"):
+            rates[rate] = [rate, 0]
+        employees = {}
+        for employee in Employee.objects.all().filter(is_active=True):
+            employees[employee.bnum] = {
+                "bnum": employee.bnum,
+                "name": f"{employee.first_name} {employee.last_name}",
+                "shifts": [],
+                "rates": deepcopy(rates),
+                "total_amount": 0.00,
+            }
+        for shift in pay_period.shifts.all():
+            if shift.processed:
+                # print(employees[shift.content_object.employee.bnum])
+                print("\n\n\n")
+                employees[shift.content_object.employee.bnum]["shifts"].append(shift)
+                employees[shift.content_object.employee.bnum]["rates"][
+                    shift.content_object.position.hourly_rate
+                ][1] += (round(shift.total_time / timezone.timedelta(minutes=15)) / 4)
+                employees[shift.content_object.employee.bnum]["total_amount"] += float(
+                    shift.content_object.position.hourly_rate.hourly_rate
+                ) * (round(shift.total_time / timezone.timedelta(minutes=15)) / 4)
+
+        self.added_context["rates"] = rates
+        self.added_context["employees"] = employees
+        self.added_context["pay_period"] = pay_period
+
+        print(employees)
+
         return super().dispatch(request, *args, **kwargs)
 
 

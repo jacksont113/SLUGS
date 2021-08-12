@@ -31,7 +31,9 @@ class Training(models.Model):
 class Trainee(models.Model):
     employee = models.ForeignKey("employee.Employee", on_delete=models.CASCADE)
     training = models.ForeignKey("training.Training", on_delete=models.CASCADE)
-    position = models.ForeignKey(Group, default='New Hire', to_field='name', on_delete=models.PROTECT)
+    position = models.ForeignKey(
+        Group, default="New Hire", to_field="name", on_delete=models.PROTECT
+    )
     shifts = GenericRelation("finance.Shift")
 
     def __str__(self):

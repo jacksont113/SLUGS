@@ -1,54 +1,65 @@
+from django.contrib.auth.models import Group
 from django_unicorn.components import UnicornView
 from gig.models import Gig, JobInterest, Job, DEPARTMENTS
 from employee.models import Employee
 from SLUGS.templatetags.grouping import has_group
+
 
 class GigsignupView(UnicornView):
     jobs = {}
     all_jobs = {}
     user_id = None
     gig_id = None
+    args = None
+    kwargs = None
 
     def setJobs(self):
+        self.jobs = {}
         gig = Gig.objects.get(pk=self.gig_id)
         user = Employee.objects.get(pk=self.user_id)
-        # Jobs that they can sign up for
-        for job in gig.job_set.filter(
-            employee=None, position__in=user.groups.all()
-        ).order_by("department"):
-            self.jobs[str(job.pk)] = (
-                job,
-                JobInterest.objects.filter(employee=user, job=job).first(),
-                True
-            )
-        # Jobs they can test for
+        probie_positions = Group.objects.filter(name__icontains="Probie")
+        is_probie = (
+            user.groups.all()
+            .filter(name__in=[g.name for g in probie_positions])
+            .exists()
+        )
+        print(is_probie, user.groups.all(), probie_positions)
         depts = []
         for dept in DEPARTMENTS:
-            if has_group(user, dept[1]) and not has_group(user, f'Probie - {dept[1]}'):
+            if has_group(user, dept[1]):
                 depts.append(dept[0])
-        for job in (gig.job_set.filter(
-            employee=None, department__in=depts
+        jobset = (
+            gig.job_set.filter(employee=None, department__in=depts).exclude(
+                position__in=probie_positions
             )
-            .exclude(position__in=user.groups.all())
-            .order_by("department")
-        ):
-            self.jobs[str(job.pk)] = (
+            if not is_probie
+            else gig.job_set.filter(
+                employee=None, department__in=depts, position__in=probie_positions
+            )
+        )
+        for job in jobset:
+            self.jobs[str(job.pk)] = [
                 job,
                 JobInterest.objects.filter(employee=user, job=job).first(),
-                False
-            )
+                True,
+            ]
+            # Must test for job
+            if job.position not in user.groups.all() and job.department in depts:
+                self.jobs[str(job.pk)][2] = False
         # All jobs
-        for job in (
-            gig.job_set.filter(employee=None)
-            .order_by("department")
-        ):
+        for job in gig.job_set.all():
             self.all_jobs[str(job.pk)] = job.position
 
     def __init__(self, *args, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
         self.user_id = kwargs["u_id"]
         self.gig_id = kwargs["gig_id"]
         self.setJobs()
+        self.args = args
+        self.kwargs = kwargs
+
+    def mount(self):
+        self.__init__(*self.args, **self.kwargs)
 
     def toggleInterest(self, job_id):
         job = Job.objects.get(pk=job_id)

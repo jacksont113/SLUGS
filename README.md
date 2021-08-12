@@ -58,6 +58,8 @@ Estimate will not save -> Check if gig has a valid load in/out for every Dept re
 * Allow GM and FD to access Financial Overview
     * See and act upon all shifts for a given pay period
     * See previous shifts in a previous pay period
+    * Print out a timesheet for an employee
+    * Print out a summary for a pay period
 * Allow admins to access quick actions
     * Change the status of onboarding
     * Change the status of signup

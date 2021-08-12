@@ -33,6 +33,15 @@
     <meta property="twitter:description" content="The Sound and Lights User Grouping System for BSSL employees">
     <meta property="twitter:image" content="https://slugs.bssl.binghamtonsa.org/static/img/logo/logo-social.png">
     {% block headincludes %} {% endblock %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D4ZF74SPXX"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-D4ZF74SPXX', {'user_id': '{{request.user.id}}'});
+    </script>
 </head>
 
 <body class="leading-normal tracking-normal font-brand bg-black text-white {% block body_classes %} {% endblock %}">

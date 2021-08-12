@@ -72,7 +72,7 @@ class Employee(AbstractUser):
 
 class OfficeHours(models.Model):
     position = models.ForeignKey(
-        Group, default="Manager", to_field='name', on_delete=models.PROTECT
+        Group, default="Manager", to_field="name", on_delete=models.PROTECT
     )
     employee = models.ForeignKey("employee.Employee", on_delete=models.CASCADE)
     shifts = GenericRelation("finance.Shift")
@@ -101,7 +101,7 @@ class Paperwork(models.Model):
 class PaperworkForm(models.Model):
     def user_dir_path(instance, filename):
         fileName, fileExtension = os.path.splitext(filename)
-        return f"uploads/{instance.employee.bnum}/{instance.employee.bnum}_{instance.employee.first_name[0].upper()}{instance.employee.last_name}_{str(instance.form)}{fileExtension}" # noqa
+        return f"uploads/{instance.employee.bnum}/{instance.employee.bnum}_{instance.employee.first_name[0].upper()}{instance.employee.last_name}_{str(instance.form)}{fileExtension}"  # noqa
 
     form = models.ForeignKey("employee.Paperwork", on_delete=models.PROTECT)
     employee = models.ForeignKey("employee.Employee", on_delete=models.CASCADE)

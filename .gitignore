@@ -1,7 +1,9 @@
 .env
 SLUGS/settings.py
 .vscode/
-db.sqlite3
+*.sqlite3
+passenger_wsgi.py
 __pycache__/
 calendar_service_account.json
 uploads/
+exports/

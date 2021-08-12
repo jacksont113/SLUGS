@@ -16,7 +16,7 @@ class GigshiftView(UnicornView):
         self.job.save()
 
     def clock_out(self):
-        shift = self.job.shifts.order_by('time_out').first()
+        shift = self.job.shifts.order_by("time_out").first()
         shift.time_out = timezone.now()
         shift.save()
         self.job.save()

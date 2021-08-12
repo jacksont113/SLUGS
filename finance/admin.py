@@ -61,5 +61,5 @@ class EstimateAdmin(admin.ModelAdmin):
 
 @admin.register(PayPeriod)
 class PayPeriodAdmin(admin.ModelAdmin):
-    readonly_fields = ["associated_employees", "associated_shifts"]
+    readonly_fields = ["get_summary", "associated_employees", "associated_shifts"]
     exclude = ["shifts"]

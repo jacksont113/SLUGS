@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 import debug_toolbar
 from SLUGS import views
+from django.contrib.auth import views as auth_views
 from employee.views import FormDownload, FilledFormDownload
 from finance.views import EstimateDownload
 
@@ -38,6 +39,9 @@ urlpatterns = [
         EstimateDownload.as_view(),
         name="download_estimate",
     ),
+    path('auth/password_reset/', auth_views.PasswordResetView.as_view(
+        html_email_template_name='registration/password_reset_html_email.html'
+    )),
     path("auth/", include("django.contrib.auth.urls"), name="auth"),
     path("utils/", include("utils.urls")),
     path("", views.index.as_view(), name="index"),

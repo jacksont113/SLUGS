@@ -27,7 +27,6 @@ from finance.forms import ShiftFormSet
 from finance.models import Shift
 from employee.models import OfficeHours, PaperworkForm
 
-from utils.gcal import prepare_credentials, setupCalendars
 
 
 # Create your views here.
@@ -100,8 +99,6 @@ class officeHours(SLUGSMixin, MultipleFormView):
     form_classes = {"office_hours": {"form": ShiftFormSet}}
 
     def dispatch(self, request, *args, **kwargs):
-        service = prepare_credentials()
-        setupCalendars(service)
         if Group.objects.get(name="Manager") not in request.user.groups.all():
             raise PermissionDenied()
         office_hour_obj = OfficeHours.objects.get_or_create(employee=request.user)[0]

@@ -204,6 +204,11 @@ class PayPeriod(models.Model):
     submitted = models.BooleanField(default=False)
     shifts = models.ManyToManyField("finance.Shift")
 
+    def get_summary(self):
+        return format_html(
+            f"<div style='margin: .25rem 0 .25rem 0'><a href='{reverse('finance:summary', args=[self.pk])}'>Summary</a></div><br>"
+        )  # noqa
+
     def associated_shifts(self):
         ret = ""
         for shift in self.shifts.all():

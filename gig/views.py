@@ -1,3 +1,4 @@
+from SLUGS.templatetags.grouping import has_group
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
@@ -32,7 +33,7 @@ class gigIndex(SLUGSMixin, MultipleFormView):
         context = super().get_context_data(**kwargs)
         for form in context["forms"]:
             if form != "show_notes":
-                if form in context['job_forms']:
+                if form in context["job_forms"]:
                     context["forms"][form] = {
                         "form": context["forms"][form],
                         "employee": context["job_forms"][form].employee,
@@ -95,7 +96,9 @@ class workSignup(SLUGSMixin, TemplateView):
     template_name = "gig/signup.html"
 
     def dispatch(self, request, *args, **kwargs):
-        if not signupStatus.objects.all().first().is_open:
+        if not signupStatus.objects.all().first().is_open or has_group(
+            request.user, "New Hire"
+        ):
             raise PermissionDenied
         self.added_context["gigs"] = list(
             set(
