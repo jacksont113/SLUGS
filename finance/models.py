@@ -16,6 +16,10 @@ import decimal
 
 # Create your models here.
 class Wage(models.Model):
+    """
+    List of all wage rates in Binghamton Sound Stage and Lighting. 
+    Shows the hourly rate and who it applies to. This page also shows pervious rates from previous years.
+    """
     name = models.CharField(max_length=64)
     hourly_rate = models.DecimalField(decimal_places=2, max_digits=5)
 
@@ -45,6 +49,10 @@ class OneTimeFee(models.Model):
 
 
 class Estimate(models.Model):
+    """
+    List of all show estimates. Shows if the show was estimated, Booked, closed or abandoned. 
+    This page allows you to create an estimate using a created gig. This page also shows the date for the show (gig start date)
+    """
     INVOICE_STATUSES = [
         ("E", "Estimate"),
         ("B", "Booked"),
@@ -177,6 +185,11 @@ class CannedNote(models.Model):
 
 
 class Shift(models.Model):
+    """
+    List of all processed and contested shifts of over time. 
+    The page shows the employee’s name, email, show, hours, and total pay. 
+    This page allows you to see the payrate the employee was paid at the time. 
+    """
     time_in = models.DateTimeField()
     time_out = models.DateTimeField(null=True, blank=True)
     total_time = models.DurationField(default=timedelta())

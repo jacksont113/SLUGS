@@ -5,6 +5,9 @@ import employee.models as employee
 
 # Create your models here.
 class System(models.Model):
+    """
+    List of all Binghamton Sound Stage and Lighting systems with name, description, department, and price per hour.
+    """
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=1024, blank=True, null=True)
     department = models.CharField(max_length=1, choices=DEPARTMENTS)
@@ -20,6 +23,10 @@ class System(models.Model):
 
 
 class SystemAddon(models.Model):
+    """
+    List of all recorded BSSL Addons. Each addon includes the name of the addon, description,
+    department, base price, price per hour/price per hour for load in and out (if applicable),  and included equipment with quantity.
+    """
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=1024, blank=True, null=True)
     department = models.CharField(max_length=1, choices=DEPARTMENTS)
@@ -36,6 +43,12 @@ class SystemAddon(models.Model):
 
 
 class BrokenEquipmentReport(models.Model):
+    """
+    Lists all submitted broken equipment reports in BSSL. 
+    The format of each report is STATUS – SOUND OR LIGHTING – SYSTEM (ex A,Large,Uplighting). 
+    This model gives you access to edit the status, the person who reported the issue, what system is broken, and notes on what is broken. 
+    The page also includes an investigation note box to give information on how the problem was solved. Reports can also be added from this model. 
+    """
     CASE_TYPES = [
         ("U", "Unread"),
         ("A", "Acknowledged"),

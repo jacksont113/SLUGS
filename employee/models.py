@@ -45,6 +45,11 @@ class EmployeeManager(BaseUserManager):
 
 
 class Employee(AbstractUser):
+    """
+    List of every employee that works or have worked for Binghamton Sound Stage and Lighting. 
+    This list shows their name, preferred name, b-number, contacts via email and phone number, date hired, if they are a current employee, manager, or system admin. 
+    This also shows if the employees outstanding :model:`employee.paperwork` .
+    """
     username = None
     email = models.EmailField(_("email address"), unique=True)
     first_name = models.CharField(max_length=100)
@@ -101,6 +106,11 @@ class OfficeHours(models.Model):
 
 
 class PaperworkForm(models.Model):
+    """
+    Gives a list of all :model:`employee.paperwork` documents from every employee in order of upload date *(not including timesheets)*. 
+    This includes the :model:`employee.employee` name, email, document updated, and last edit date. 
+    You also have the ability to add paperwork forms to individuals in this model. 
+    """
     def user_dir_path(instance, filename):
         fileName, fileExtension = os.path.splitext(filename)
         return f"uploads/{instance.employee.bnum}/{instance.employee.bnum}_{instance.employee.first_name[0].upper()}{instance.employee.last_name}_{str(instance.form)}{fileExtension}"  # noqa
@@ -117,6 +127,12 @@ class PaperworkForm(models.Model):
 
 
 class Paperwork(models.Model):
+    """
+    List of all :model:`employee.paperwork` paperwork *(not including timesheets)*. 
+    Gives the list of people who were sent the paperwork and if it has been digitally signed or uploaded. 
+    This also gives access to the uploaded paperwork from every employee. 
+    You also have the ability to add paperwork from this model. 
+    """
     form_name = models.CharField(max_length=256)
     form_pdf = models.FileField(upload_to="forms/")
     uploaded = models.DateTimeField(auto_now_add=True)

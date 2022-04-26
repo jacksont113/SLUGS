@@ -20,6 +20,11 @@ DEPARTMENTS = [
 
 
 class Gig(models.Model):
+    """
+    List of all Binghamton Sound Stage and Lighting Gigs. This page allows you to create gigs and look at previously created gigs.
+    Shows the name of the show, organization, date, and status (i.e. Archived, Cancelled). This page also has the ability to allow managers to staff the show, send staffing emails, 
+    choose the set-up time, start time, end time, organization, lead contact, the location of the show, and the packages with number of employees needed for the show. The gig page also has manager notes and employee notes to show when staffing. 
+    """
     name = models.CharField(max_length=200)
     notes = HTMLField(
         blank=True,
@@ -112,6 +117,11 @@ class AddonInstance(models.Model):
 
 
 class Job(models.Model):
+    """
+    List of all Binghamton Sound Stage and Lighting positions for shows. 
+    This page shows the name of the event and the employee who was staffed with their email. 
+    This page shows each job individually showing multiple jobs for each show. 
+    """
     gig = models.ForeignKey(Gig, on_delete=models.CASCADE)
     employee = models.ForeignKey(
         employee.Employee, on_delete=models.SET_NULL, null=True, blank=True

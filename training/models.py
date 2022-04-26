@@ -8,6 +8,9 @@ from django.utils import timezone
 
 # Create your models here.
 class Training(models.Model):
+    """
+    List of all trainings that have occurred/going to happen. Shows the department for training, date/time, trainer, system being trained, and the trainees. 
+    """
     date = models.DateTimeField()
     dept = models.CharField(max_length=1, choices=DEPARTMENTS)
     location = models.ForeignKey(
@@ -29,6 +32,10 @@ class Training(models.Model):
 
 
 class Trainee(models.Model):
+    """
+    List of available training spots with the trainee’s name, contact info, what training they are doing,
+     and position at Binghamton Sound Stage and Lighting
+    """
     employee = models.ForeignKey("employee.Employee", on_delete=models.CASCADE)
     training = models.ForeignKey("training.Training", on_delete=models.CASCADE)
     position = models.ForeignKey(
@@ -41,6 +48,10 @@ class Trainee(models.Model):
 
 
 class TrainingRequest(models.Model):
+    """
+    List of all requests for training made by employees through the training tab in slugs. Shows if the training has been answered by a manager,
+    the employee requesting the train with their email, and the date/time of the training. The page also allows you to make trainings and what systems the employee is training for.
+    """
     employee = models.ForeignKey("employee.Employee", on_delete=models.CASCADE)
     systems = models.ManyToManyField("equipment.System", blank=True)
     notes = models.TextField(null=True, blank=True, help_text="Be sure to include when you're free in the upcoming weeks to schedule the training")
